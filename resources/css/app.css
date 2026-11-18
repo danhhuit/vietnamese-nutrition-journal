@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+
+@layer components {
+    .card { @apply rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700; }
+    .btn { @apply inline-flex items-center justify-center rounded-xl bg-emerald-700 px-4 py-2 font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2; }
+    .btn-secondary { @apply inline-flex items-center justify-center rounded-xl bg-slate-100 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-200 dark:bg-slate-700 dark:text-white; }
+    .input { @apply w-full rounded-xl border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white; }
+    .label { @apply mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-200; }
+    .badge { @apply inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800; }
+    .table-wrap { @apply overflow-x-auto rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700; }
+    .table { @apply min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-700; }
+    .table th { @apply bg-slate-50 px-4 py-3 text-left font-semibold text-slate-600 dark:bg-slate-900 dark:text-slate-300; }
+    .table td { @apply px-4 py-3 text-slate-700 dark:text-slate-200; }
+}

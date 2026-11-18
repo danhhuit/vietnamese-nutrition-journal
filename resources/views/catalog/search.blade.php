@@ -1,0 +1,4 @@
+<x-app-layout><x-slot name="header"><h1 class="text-2xl font-black">Tìm kiếm thông minh</h1></x-slot>
+<form class="card mb-8 flex gap-2"><input name="q" class="input" value="{{ $query }}" placeholder="Gõ không dấu vẫn tìm được"><button class="btn">Tìm</button></form>
+@foreach([['Món ăn',$dishes,'dishes.show'],['Thực phẩm',$foods,'foods.show'],['Quán ăn',$restaurants,'restaurants.show']] as [$title,$collection,$route])<section class="mb-8"><h2 class="mb-3 text-xl font-bold">{{ $title }}</h2><div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">@forelse($collection as $item)<a class="card hover:ring-emerald-500" href="{{ route($route,$item) }}"><strong>{{ $item->name }}</strong>@isset($item->calories)<p>{{ round($item->calories) }} Kcal</p>@endisset @isset($item->address)<p class="text-sm text-slate-500">{{ $item->address }}</p>@endisset</a>@empty<p class="text-slate-500">Không có kết quả.</p>@endforelse</div></section>@endforeach
+</x-app-layout>
