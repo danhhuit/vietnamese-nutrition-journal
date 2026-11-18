@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header"><h1 class="text-2xl font-black">Nhóm, khẩu phần & dị ứng</h1></x-slot>
-    @include('admin._nav')
+    <x-admin.navigation />
 
     <div class="grid gap-6 lg:grid-cols-3">
         <section class="card">

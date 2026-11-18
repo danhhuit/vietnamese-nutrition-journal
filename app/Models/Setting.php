@@ -15,6 +15,18 @@ class Setting extends Model
         return $value === null ? $default : (float) $value;
     }
 
+    public static function boolean(string $key, bool $default = false): bool
+    {
+        $value = static::query()->where('key', $key)->value('value');
+
+        return $value === null ? $default : filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    public static function text(string $key, string $default = ''): string
+    {
+        return (string) (static::query()->where('key', $key)->value('value') ?? $default);
+    }
+
     /** @return array<string, float> */
     public static function numbers(): array
     {

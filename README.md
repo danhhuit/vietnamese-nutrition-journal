@@ -1,6 +1,6 @@
 # Nhật ký dinh dưỡng & Gợi ý quán ăn món Việt
 
-Ứng dụng web responsive phục vụ đồ án học phần Lập trình mã nguồn mở. Người dùng có thể tra cứu dinh dưỡng thực phẩm/món Việt, tính nhu cầu cá nhân, tìm quán bán món, ghi nhật ký 4 bữa và theo dõi báo cáo. Giao diện đơn sắc dùng Inter, thanh giới thiệu 5 trang, footer, chế độ sáng/tối và lựa chọn tiếng Việt/Anh. Khu vực quản trị ưu tiên hệ thống, người dùng, nhóm quyền và nhật ký thao tác.
+Ứng dụng web responsive phục vụ đồ án học phần Lập trình mã nguồn mở. Người dùng có thể tra cứu dinh dưỡng thực phẩm/món Việt, tính nhu cầu cá nhân, tìm quán bán món, ghi nhật ký 4 bữa và theo dõi báo cáo. Giao diện tối giản dùng Inter và màu chủ đạo `#2A8627`, thanh giới thiệu 5 ảnh tự chạy, footer, chế độ sáng/tối và lựa chọn tiếng Việt/Anh. Khu vực quản trị ưu tiên hệ thống, người dùng, nhóm quyền và nhật ký thao tác.
 
 > Một số thực phẩm đã được đối chiếu với bảng thành phần 2017 theo mã và trang PDF. Các dòng khác và dinh dưỡng món vẫn là ước tính minh họa. Quán có địa chỉ được kiểm tra qua Michelin Guide; giá chưa xác minh không được hiển thị thành giá thật.
 
@@ -49,7 +49,7 @@ Seeder tạo sẵn:
 
 - **46/51 giá trị năng lượng** đã đối chiếu với **Bảng thành phần thực phẩm Việt Nam 2017** (PDF do người dùng cung cấp, 304 trang), tính trên 100 g phần ăn được. Trong đó, 38 dòng có thêm các thành phần chính được đối chiếu; 8 dòng chỉ có năng lượng được đối chiếu, các thành phần còn lại ghi là ước tính. Trường `source` ghi mã thực phẩm và trang PDF. Ví dụ khoai lang mã `02008` là **124 Kcal/100 g**, khác bảng 2007 (119 Kcal); giao diện dùng con số của bảng 2017 cho bản ghi này.
 - [Bảng thành phần 2007 của FAO](https://www.fao.org/fileadmin/templates/food_composition/documents/pdf/VTN_FCT_2007.pdf) và [công cụ Viện Dinh dưỡng](https://viendinhduong.vn/vi/cong-cu-va-tien-ich/gia-tri-dinh-duong-thuc-pham) dùng để đối chiếu. [Vietnamese Foods](https://www.kaggle.com/datasets/quandang/vietnamese-foods) và [VinaFood21](https://www.kaggle.com/datasets/sonbui25/vinafood21) chỉ tham khảo nhận diện món, không phải bảng thành phần dinh dưỡng.
-- Địa chỉ 16 quán được kiểm tra trên Michelin Guide, liên kết ở từng trang quán. Ứng dụng đưa cả tên và địa chỉ vào Google Maps để định vị. Chưa lưu tọa độ thủ công khi chưa được kiểm chứng độc lập; cần kiểm tra ghim và giờ mở cửa trên bản đồ trước khi đi.
+- Địa chỉ 16 quán mẫu được kiểm tra trên Michelin Guide, liên kết ở từng trang quán. Trang **Tìm trực tiếp trên Google Maps** dùng Places API (New) để trả kết quả hiện thời tại TP.HCM và không lưu hàng loạt nội dung Google. Google Places giới hạn tối đa 20 kết quả mỗi trang/60 kết quả mỗi truy vấn; vì vậy không có cách hợp lệ để sao chép “tất cả quán” vào database. Cần kiểm tra ghim, giờ mở cửa và liên hệ trên Maps trước khi đi.
 - Sau khi cập nhật code, chạy `php artisan migrate` để thêm bảng nhóm quyền/nhật ký và cột nguồn quán. Nếu muốn thay hoàn toàn dữ liệu demo bằng bản mới, chạy `php artisan migrate:fresh --seed` (lệnh này xóa dữ liệu đang có).
 
 Tài khoản demo:
@@ -91,7 +91,10 @@ DB_PORT=3306
 DB_DATABASE=nhat_ky_dinh_duong
 DB_USERNAME=root
 DB_PASSWORD=
+GOOGLE_PLACES_API_KEY=
 ```
+
+`GOOGLE_PLACES_API_KEY` là tùy chọn. Để bật tìm quán trực tiếp, tạo API key phía server đã bật **Places API (New)** và giới hạn key theo API/IP phù hợp. Không đưa key vào JavaScript hay commit `.env`.
 
 ### 3. Tạo database, migration và seed tự động
 
@@ -137,7 +140,7 @@ npm audit
 npm run build
 ```
 
-Kết quả xác minh tại thời điểm bàn giao: 40 test, 134 assertion, 0 lỗi Larastan, 0 advisory Composer và 0 vulnerability npm.
+Kết quả xác minh tại thời điểm bàn giao: 50 test, 175 assertion, 0 lỗi Larastan, 0 advisory Composer và 0 vulnerability npm.
 
 ## Cấu trúc dữ liệu
 
@@ -150,12 +153,14 @@ Các bảng nghiệp vụ chính gồm `users`, `health_profiles`, `food_groups`
 - Hash mật khẩu, xác minh email/khôi phục mật khẩu theo Laravel, giới hạn đăng nhập của Breeze.
 - Header `nosniff`, chống iframe, referrer/permissions policy; escape Blade mặc định.
 - Không lưu bí mật trong repository; `.env` nằm trong `.gitignore`.
+- API key Google chỉ được gọi phía server; dữ liệu Places chỉ hiển thị trực tiếp, không được lưu hàng loạt.
+- Admin có thể bật trang bảo trì HTTP 503, tạo/tải bản sao JSON và phục hồi sau khi nhập xác nhận `RESTORE`. Nên tải bản sao ra khỏi máy chủ định kỳ và chỉ giao quyền `manage_system` cho người tin cậy.
 
 ## Lưu ý trình duyệt
 
 - “Gần tôi nhất” cần quyền vị trí và hoạt động tốt nhất trên HTTPS hoặc localhost.
 - Nhắc nhở cần người dùng bấm “Cho phép thông báo”; trình duyệt có thể giới hạn thông báo nền.
-- Bản đồ nhúng dùng OpenStreetMap; nút chỉ đường mở Google Maps mà không cần API key.
+- Bản đồ nhúng dùng OpenStreetMap; nút chỉ đường mở Google Maps. Tìm kiếm Google Places trực tiếp chỉ hoạt động khi có `GOOGLE_PLACES_API_KEY`.
 
 ## Giấy phép
 

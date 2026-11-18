@@ -7,9 +7,11 @@ use App\Http\Controllers\Admin\FoodController as AdminFoodController;
 use App\Http\Controllers\Admin\PermissionGroupController;
 use App\Http\Controllers\Admin\RestaurantController as AdminRestaurantController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+use App\Http\Controllers\Admin\SystemController as AdminSystemController;
 use App\Http\Controllers\Admin\TaxonomyController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\GooglePlacesController;
 use App\Http\Controllers\HealthProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JournalController;
@@ -26,6 +28,7 @@ Route::get('/foods/{food}', [HomeController::class, 'food'])->name('foods.show')
 Route::get('/dishes', [HomeController::class, 'dishes'])->name('dishes.index');
 Route::get('/dishes/{dish}', [HomeController::class, 'dish'])->name('dishes.show');
 Route::get('/restaurants', [HomeController::class, 'restaurants'])->name('restaurants.index');
+Route::get('/restaurants/google', GooglePlacesController::class)->middleware('throttle:30,1')->name('restaurants.google');
 Route::get('/restaurants/{restaurant}', [HomeController::class, 'restaurant'])->name('restaurants.show');
 Route::get('/compare', [HomeController::class, 'compare'])->name('compare');
 Route::match(['get', 'post'], '/calculator', [HomeController::class, 'calculator'])->name('calculator');
@@ -77,6 +80,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'active', 'admin'])-
     Route::get('/activity', ActivityController::class)->name('activity.index');
     Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [AdminSettingController::class, 'update'])->name('settings.update');
+    Route::get('/system', [AdminSystemController::class, 'index'])->name('system.index');
+    Route::put('/system/maintenance', [AdminSystemController::class, 'maintenance'])->name('system.maintenance');
+    Route::post('/system/backup', [AdminSystemController::class, 'backup'])->name('system.backup');
+    Route::get('/system/backups/{file}', [AdminSystemController::class, 'download'])->name('system.backups.download');
+    Route::post('/system/restore', [AdminSystemController::class, 'restore'])->name('system.restore');
 });
 
 require __DIR__.'/auth.php';

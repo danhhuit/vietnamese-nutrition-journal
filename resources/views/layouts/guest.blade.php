@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <script>try { const theme = localStorage.getItem('nutrition-theme'); if (theme) document.documentElement.classList.toggle('dark', theme === 'dark'); } catch (e) {}</script>
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -15,9 +16,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-zinc-50 dark:bg-zinc-950">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-emerald-50 dark:bg-zinc-950">
             <div>
-                <a href="/" class="text-lg font-bold">Dinh dưỡng Việt</a>
+                <a href="/" class="text-lg font-bold text-[#2A8627] dark:text-emerald-300">Dinh dưỡng Việt</a>
             </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 overflow-hidden sm:rounded-lg">

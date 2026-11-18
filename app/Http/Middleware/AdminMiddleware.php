@@ -19,7 +19,7 @@ final class AdminMiddleware
         $permission = str_starts_with($route, 'admin.users.') ? 'manage_users'
             : (str_starts_with($route, 'admin.activity.') ? 'view_activity'
             : (str_starts_with($route, 'admin.permission-groups.') ? 'manage_users'
-            : (str_starts_with($route, 'admin.settings.') ? 'manage_system' : 'manage_catalog')));
+            : ((str_starts_with($route, 'admin.settings.') || str_starts_with($route, 'admin.system.') || str_starts_with($route, 'admin.google-places.')) ? 'manage_system' : 'manage_catalog')));
         abort_unless($request->user()?->canAccess($permission), 403);
 
         return $next($request);

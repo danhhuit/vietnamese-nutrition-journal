@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\EnsureAccountIsActive;
+use App\Http\Middleware\EnsureApplicationAvailable;
 use App\Http\Middleware\RecordActivity;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\SetLocale;
@@ -17,9 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->append(SetLocale::class);
-        $middleware->append(SecurityHeaders::class);
-        $middleware->append(RecordActivity::class);
+        $middleware->web(append: [SetLocale::class, EnsureApplicationAvailable::class, SecurityHeaders::class, RecordActivity::class]);
         $middleware->alias([
             'admin' => AdminMiddleware::class,
             'active' => EnsureAccountIsActive::class,

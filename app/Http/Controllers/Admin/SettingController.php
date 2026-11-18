@@ -12,7 +12,7 @@ final class SettingController extends Controller
 {
     public function index(): View
     {
-        return view('admin.settings', ['settings' => Setting::orderBy('key')->get()]);
+        return view('admin.settings', ['settings' => Setting::where('type', 'number')->orderBy('key')->get()]);
     }
 
     public function update(Request $request): RedirectResponse

@@ -8,6 +8,30 @@ window.Chart = Chart;
 
 Alpine.start();
 
+window.toggleNutritionTheme = () => {
+    const dark = !document.documentElement.classList.contains('dark');
+    document.documentElement.classList.toggle('dark', dark);
+    localStorage.setItem('nutrition-theme', dark ? 'dark' : 'light');
+};
+
+const loadingOverlay = () => document.getElementById('global-loading');
+document.addEventListener('submit', (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement) || form.dataset.noLoading !== undefined || !form.checkValidity()) return;
+    const overlay = loadingOverlay();
+    if (overlay) overlay.hidden = false;
+});
+document.addEventListener('click', (event) => {
+    const link = event.target.closest('a[href]');
+    if (!link || link.target === '_blank' || link.hasAttribute('download') || link.origin !== window.location.origin || link.hash) return;
+    const overlay = loadingOverlay();
+    if (overlay) overlay.hidden = false;
+});
+window.addEventListener('pageshow', () => {
+    const overlay = loadingOverlay();
+    if (overlay) overlay.hidden = true;
+});
+
 window.enableNutritionReminders = async (button) => {
     if (!('Notification' in window)) {
         button.textContent = 'Trình duyệt không hỗ trợ';

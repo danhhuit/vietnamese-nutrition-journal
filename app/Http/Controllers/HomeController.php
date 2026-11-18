@@ -62,12 +62,21 @@ final class HomeController extends Controller
             ->when($request->input('energy') === '500-1000', fn ($q) => $q->whereBetween('calories', [500, 1000]))
             ->when($request->input('energy') === '1000+', fn ($q) => $q->where('calories', '>', 1000));
 
-        $sort = $request->string('sort')->toString();
-        if (in_array($sort, ['calories', 'protein_g', 'fat_g', 'carb_g', 'fiber_g', 'calcium_mg', 'iron_mg', 'sodium_mg', 'potassium_mg'], true)) {
-            $query->orderByDesc($sort);
-        } else {
-            $query->orderBy('name');
-        }
+        [$sortColumn, $sortDirection] = match ($request->string('sort')->toString()) {
+            'name_desc' => ['name', 'desc'],
+            'calories_asc' => ['calories', 'asc'],
+            'calories_desc' => ['calories', 'desc'],
+            'protein_desc' => ['protein_g', 'desc'],
+            'fat_desc' => ['fat_g', 'desc'],
+            'carb_desc' => ['carb_g', 'desc'],
+            'fiber_desc' => ['fiber_g', 'desc'],
+            'calcium_desc' => ['calcium_mg', 'desc'],
+            'iron_desc' => ['iron_mg', 'desc'],
+            'sodium_desc' => ['sodium_mg', 'desc'],
+            'potassium_desc' => ['potassium_mg', 'desc'],
+            default => ['name', 'asc'],
+        };
+        $query->orderBy($sortColumn, $sortDirection);
         $foods = $query->paginate(15)->withQueryString();
         $selected = $request->filled('selected') ? Food::with('foodGroup')->find($request->integer('selected')) : $foods->first();
 
@@ -83,11 +92,19 @@ final class HomeController extends Controller
 
     public function dishes(Request $request): View
     {
-        $dishes = Dish::query()->search($request->string('q')->toString())
+        $query = Dish::query()->search($request->string('q')->toString())
             ->when($request->boolean('vegetarian'), fn ($q) => $q->where('is_vegetarian', true))
             ->when($request->boolean('low_calorie'), fn ($q) => $q->where('is_low_calorie', true))
-            ->when($request->boolean('high_protein'), fn ($q) => $q->where('is_high_protein', true))
-            ->orderBy('name')->paginate(15)->withQueryString();
+            ->when($request->boolean('high_protein'), fn ($q) => $q->where('is_high_protein', true));
+        [$column, $direction] = match ($request->string('sort')->toString()) {
+            'name_desc' => ['name', 'desc'],
+            'calories_asc' => ['calories', 'asc'],
+            'calories_desc' => ['calories', 'desc'],
+            'protein_desc' => ['protein_g', 'desc'],
+            'popular' => ['viewed_count', 'desc'],
+            default => ['name', 'asc'],
+        };
+        $dishes = $query->orderBy($column, $direction)->paginate(15)->withQueryString();
 
         return view('catalog.dishes', compact('dishes'));
     }
@@ -104,10 +121,18 @@ final class HomeController extends Controller
 
     public function restaurants(Request $request): View
     {
-        $restaurants = Restaurant::query()->search($request->string('q')->toString())
+        $query = Restaurant::query()->search($request->string('q')->toString())
             ->when($request->filled('area'), fn ($q) => $q->where('area', $request->string('area')))
             ->when($request->filled('price_level'), fn ($q) => $q->where('price_level', $request->string('price_level')))
-            ->withCount('dishes')->orderBy('name')->paginate(12)->withQueryString();
+            ->withCount('dishes');
+        [$column, $direction] = match ($request->string('sort')->toString()) {
+            'name_desc' => ['name', 'desc'],
+            'area_asc' => ['area', 'asc'],
+            'dishes_desc' => ['dishes_count', 'desc'],
+            'newest' => ['data_updated_at', 'desc'],
+            default => ['name', 'asc'],
+        };
+        $restaurants = $query->orderBy($column, $direction)->paginate(12)->withQueryString();
 
         return view('catalog.restaurants', ['restaurants' => $restaurants, 'areas' => Restaurant::distinct()->orderBy('area')->pluck('area')]);
     }
