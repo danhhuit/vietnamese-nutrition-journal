@@ -8,40 +8,6 @@ window.Chart = Chart;
 
 Alpine.start();
 
-window.sortRestaurantsByDistance = (button) => {
-    const status = document.getElementById('distance-status');
-    if (!navigator.geolocation) {
-        status.textContent = 'Trình duyệt không hỗ trợ định vị.';
-        return;
-    }
-
-    button.disabled = true;
-    status.textContent = 'Đang lấy vị trí của bạn…';
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-        const radians = (degrees) => degrees * Math.PI / 180;
-        const distance = (latitude, longitude) => {
-            const dLat = radians(latitude - coords.latitude);
-            const dLon = radians(longitude - coords.longitude);
-            const a = Math.sin(dLat / 2) ** 2 + Math.cos(radians(coords.latitude)) * Math.cos(radians(latitude)) * Math.sin(dLon / 2) ** 2;
-            return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        };
-        const grid = document.getElementById('restaurant-grid');
-        const cards = [...grid.querySelectorAll('[data-restaurant-card]')];
-        cards.forEach((card) => {
-            const latitude = Number(card.dataset.latitude);
-            const longitude = Number(card.dataset.longitude);
-            card.distance = latitude && longitude ? distance(latitude, longitude) : Number.POSITIVE_INFINITY;
-            card.querySelector('[data-distance]').textContent = Number.isFinite(card.distance) ? `${card.distance.toFixed(1)} km từ bạn` : 'Chưa có tọa độ';
-        });
-        cards.sort((first, second) => first.distance - second.distance).forEach((card) => grid.append(card));
-        status.textContent = 'Đã sắp xếp các quán trên trang hiện tại theo khoảng cách.';
-        button.disabled = false;
-    }, () => {
-        status.textContent = 'Không thể lấy vị trí. Hãy cho phép quyền định vị hoặc mở bản đồ từ trang quán.';
-        button.disabled = false;
-    }, { enableHighAccuracy: false, timeout: 10000 });
-};
-
 window.enableNutritionReminders = async (button) => {
     if (!('Notification' in window)) {
         button.textContent = 'Trình duyệt không hỗ trợ';

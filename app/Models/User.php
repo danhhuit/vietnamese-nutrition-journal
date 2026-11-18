@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -52,6 +53,25 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    /** @return BelongsTo<PermissionGroup, $this> */
+    public function permissionGroup(): BelongsTo
+    {
+        return $this->belongsTo(PermissionGroup::class);
+    }
+
+    public function canAccess(string $permission): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        if ($this->permission_group_id === null) {
+            return false;
+        }
+
+        return in_array($permission, $this->permissionGroup()->first()->permissions, true);
     }
 
     /**

@@ -12,7 +12,7 @@ class Restaurant extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'normalized_name', 'address', 'area', 'latitude', 'longitude', 'opening_hours', 'opens_at', 'closes_at', 'phone', 'price_level', 'image_url', 'data_updated_at'];
+    protected $fillable = ['name', 'normalized_name', 'address', 'source_url', 'area', 'latitude', 'longitude', 'opening_hours', 'opens_at', 'closes_at', 'phone', 'price_level', 'image_url', 'data_updated_at'];
 
     protected function casts(): array
     {
@@ -36,13 +36,13 @@ class Restaurant extends Model
 
     public function mapsUrl(): string
     {
-        return 'https://www.google.com/maps/search/?api=1&query='.urlencode($this->latitude && $this->longitude ? "{$this->latitude},{$this->longitude}" : $this->address);
+        return 'https://www.google.com/maps/search/?api=1&query='.urlencode($this->name.', '.$this->address);
     }
 
     public function embedMapUrl(): ?string
     {
         if (! $this->latitude || ! $this->longitude) {
-            return null;
+            return 'https://www.google.com/maps?q='.urlencode($this->name.', '.$this->address).'&output=embed';
         }
 
         $latitude = (float) $this->latitude;

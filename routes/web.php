@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DishController as AdminDishController;
 use App\Http\Controllers\Admin\FoodController as AdminFoodController;
+use App\Http\Controllers\Admin\PermissionGroupController;
 use App\Http\Controllers\Admin\RestaurantController as AdminRestaurantController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\TaxonomyController;
@@ -13,6 +15,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -26,6 +30,13 @@ Route::get('/restaurants/{restaurant}', [HomeController::class, 'restaurant'])->
 Route::get('/compare', [HomeController::class, 'compare'])->name('compare');
 Route::match(['get', 'post'], '/calculator', [HomeController::class, 'calculator'])->name('calculator');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::post('/locale', function (Request $request): RedirectResponse {
+    $data = $request->validate(['locale' => ['required', 'in:vi,en']]);
+    $request->session()->put('locale', $data['locale']);
+    $request->user()?->update(['locale' => $data['locale']]);
+
+    return back();
+})->name('locale.update');
 
 Route::middleware(['auth', 'active'])->group(function (): void {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
@@ -58,6 +69,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'active', 'admin'])-
     Route::delete('/taxonomies/{type}/{id}', [TaxonomyController::class, 'destroy'])->whereIn('type', ['group', 'unit', 'allergy'])->name('taxonomies.destroy');
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::patch('/users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggle-status');
+    Route::patch('/users/{user}/group', [AdminUserController::class, 'updateGroup'])->name('users.group');
+    Route::patch('/users/{user}/password', [AdminUserController::class, 'updatePassword'])->name('users.password');
+    Route::get('/permission-groups', [PermissionGroupController::class, 'index'])->name('permission-groups.index');
+    Route::post('/permission-groups', [PermissionGroupController::class, 'store'])->name('permission-groups.store');
+    Route::delete('/permission-groups/{group}', [PermissionGroupController::class, 'destroy'])->name('permission-groups.destroy');
+    Route::get('/activity', ActivityController::class)->name('activity.index');
     Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [AdminSettingController::class, 'update'])->name('settings.update');
 });

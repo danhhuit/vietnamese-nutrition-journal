@@ -5,7 +5,7 @@
     </x-slot>
 
     @if($hasAllergy)
-        <div class="mb-5 rounded-xl bg-red-100 p-4 font-bold text-red-900">⚠ Món này chứa thành phần trùng với dị ứng trong hồ sơ của bạn.</div>
+        <div class="mb-5 rounded-xl border border-zinc-500 bg-zinc-100 p-4 font-bold dark:bg-zinc-800">Món này chứa thành phần trùng với dị ứng trong hồ sơ của bạn.</div>
     @endif
 
     <div class="grid gap-6 lg:grid-cols-3">
@@ -25,18 +25,18 @@
 
             <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 @foreach(['calories'=>'Kcal','protein_g'=>'Protein','fat_g'=>'Fat','carb_g'=>'Carb','fiber_g'=>'Chất xơ','sodium_mg'=>'Natri','sugar_g'=>'Đường'] as $key=>$label)
-                    <div class="rounded-xl bg-emerald-50 p-3 text-emerald-950">
+                    <div class="rounded-xl bg-zinc-100 p-3 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100">
                         <small>{{ $label }}</small>
                         <div class="text-2xl font-black">{{ $nutrition[$key] }}{{ $key === 'calories' ? '' : ($key === 'sodium_mg' ? 'mg' : 'g') }}</div>
                     </div>
                 @endforeach
             </div>
 
-            <h2 class="mt-7 text-xl font-bold">Nguyên liệu chính</h2>
+            <h2 class="mt-7 text-xl font-bold">Nguyên liệu tham khảo</h2>
             <ul class="mt-2 list-disc pl-5">
-                @foreach($dish->ingredients as $ingredient)
+                @forelse($dish->ingredients as $ingredient)
                     <li>{{ $ingredient->name }} — {{ $ingredient->pivot->grams }}g</li>
-                @endforeach
+                @empty<li>Chưa đối chiếu công thức nguyên liệu cho món này.</li>@endforelse
             </ul>
             <div class="mt-4 flex gap-2">
                 @if($dish->is_low_calorie)<span class="badge">Ít calo</span>@endif
@@ -52,7 +52,7 @@
                 @forelse($dish->restaurants as $restaurant)
                     <a class="mt-3 block rounded-xl bg-slate-50 p-3" href="{{ route('restaurants.show', $restaurant) }}">
                         <strong>{{ $restaurant->name }}</strong>
-                        <div>{{ number_format($restaurant->pivot->price) }}đ • {{ $restaurant->area }}</div>
+                        <div>{{ $restaurant->pivot->price > 0 ? number_format($restaurant->pivot->price).'đ' : 'Chưa rõ giá' }} · {{ $restaurant->area }}</div>
                     </a>
                 @empty
                     <p class="mt-2 text-slate-500">Chưa có quán bán món này.</p>
@@ -73,7 +73,7 @@
                     </form>
                     <form class="mt-2" method="POST" action="{{ route('favorites.toggle', ['dish', $dish->id]) }}">
                         @csrf
-                        <button class="btn-secondary w-full">♡ Yêu thích</button>
+                        <button class="btn-secondary w-full">Yêu thích</button>
                     </form>
                 </div>
             @endauth

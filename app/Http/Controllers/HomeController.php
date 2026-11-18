@@ -62,7 +62,16 @@ final class HomeController extends Controller
             ->when($request->input('energy') === '500-1000', fn ($q) => $q->whereBetween('calories', [500, 1000]))
             ->when($request->input('energy') === '1000+', fn ($q) => $q->where('calories', '>', 1000));
 
-        return view('catalog.foods', ['foods' => $query->orderBy('name')->paginate(15)->withQueryString(), 'groups' => FoodGroup::orderBy('name_vi')->get()]);
+        $sort = $request->string('sort')->toString();
+        if (in_array($sort, ['calories', 'protein_g', 'fat_g', 'carb_g', 'fiber_g', 'calcium_mg', 'iron_mg', 'sodium_mg', 'potassium_mg'], true)) {
+            $query->orderByDesc($sort);
+        } else {
+            $query->orderBy('name');
+        }
+        $foods = $query->paginate(15)->withQueryString();
+        $selected = $request->filled('selected') ? Food::with('foodGroup')->find($request->integer('selected')) : $foods->first();
+
+        return view('catalog.foods', ['foods' => $foods, 'selected' => $selected, 'groups' => FoodGroup::orderBy('name_vi')->get()]);
     }
 
     public function food(Food $food): View
@@ -98,7 +107,6 @@ final class HomeController extends Controller
         $restaurants = Restaurant::query()->search($request->string('q')->toString())
             ->when($request->filled('area'), fn ($q) => $q->where('area', $request->string('area')))
             ->when($request->filled('price_level'), fn ($q) => $q->where('price_level', $request->string('price_level')))
-            ->when($request->boolean('open_now'), fn ($q) => $q->where('opens_at', '<=', now()->format('H:i:s'))->where('closes_at', '>=', now()->format('H:i:s')))
             ->withCount('dishes')->orderBy('name')->paginate(12)->withQueryString();
 
         return view('catalog.restaurants', ['restaurants' => $restaurants, 'areas' => Restaurant::distinct()->orderBy('area')->pluck('area')]);

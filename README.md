@@ -1,8 +1,8 @@
 # Nhật ký dinh dưỡng & Gợi ý quán ăn món Việt
 
-Ứng dụng web responsive phục vụ đồ án học phần Lập trình mã nguồn mở. Người dùng có thể tra cứu dinh dưỡng thực phẩm/món Việt, tính nhu cầu cá nhân, tìm quán bán món, ghi nhật ký 4 bữa và theo dõi báo cáo. Khu vực Admin quản lý toàn bộ dữ liệu và công thức.
+Ứng dụng web responsive phục vụ đồ án học phần Lập trình mã nguồn mở. Người dùng có thể tra cứu dinh dưỡng thực phẩm/món Việt, tính nhu cầu cá nhân, tìm quán bán món, ghi nhật ký 4 bữa và theo dõi báo cáo. Giao diện đơn sắc dùng Inter, thanh giới thiệu 5 trang, footer, chế độ sáng/tối và lựa chọn tiếng Việt/Anh. Khu vực quản trị ưu tiên hệ thống, người dùng, nhóm quyền và nhật ký thao tác.
 
-> Số liệu dinh dưỡng, giá và thông tin quán trong bộ dữ liệu mẫu chỉ dùng cho mục đích học tập, không thay thế tư vấn của bác sĩ hoặc chuyên gia dinh dưỡng.
+> Một số thực phẩm đã được đối chiếu với bảng thành phần 2017 theo mã và trang PDF. Các dòng khác và dinh dưỡng món vẫn là ước tính minh họa. Quán có địa chỉ được kiểm tra qua Michelin Guide; giá chưa xác minh không được hiển thị thành giá thật.
 
 ## Công nghệ
 
@@ -14,7 +14,7 @@
 
 ## Phạm vi chức năng
 
-Toàn bộ 40 chức năng trong đặc tả đã được triển khai.
+Các module chính và nhiều chức năng mở rộng trong đặc tả đã được triển khai. Những tiện ích cần dữ liệu tọa độ/giờ mở cửa đã được ẩn trên bộ dữ liệu quán đã xác minh địa chỉ để tránh trả kết quả sai.
 
 ### 25 chức năng bắt buộc
 
@@ -30,7 +30,7 @@ Toàn bộ 40 chức năng trong đặc tả đã được triển khai.
 ### 15 chức năng tùy chọn
 
 - 1.7 so sánh hai món/thực phẩm; 1.8 yêu thích; 1.9 cảnh báo dị ứng.
-- 2.7 lọc khu vực, mức giá, giờ mở cửa; 2.8 OpenStreetMap, chỉ đường và sắp xếp gần tôi; 2.9 quán yêu thích.
+- 2.7 lọc khu vực, mức giá; 2.8 bản đồ, chỉ đường; 2.9 quán yêu thích. Dữ liệu giờ mở cửa và tọa độ chưa xác minh độc lập nên bộ lọc giờ và xếp hạng khoảng cách không bật trên dữ liệu mẫu.
 - 3.6 mục tiêu cân nặng; 3.7 nhật ký nước; 3.8 nhắc bữa ăn/uống nước bằng Web Notification.
 - 4.3 biểu đồ cân nặng; 4.4 xuất PDF theo khoảng ngày.
 - 5.4 khôi phục mật khẩu; 5.5 tiếng Việt/tiếng Anh cho điều hướng chính và chế độ tối.
@@ -40,10 +40,17 @@ Toàn bộ 40 chức năng trong đặc tả đã được triển khai.
 
 Seeder tạo sẵn:
 
-- 15 nhóm thực phẩm, 43 nguyên liệu/thực phẩm, 30 món Việt và 8 đơn vị khẩu phần.
-- 16 quán ăn, mỗi quán có thực đơn và giá tham khảo.
+- 15 nhóm thực phẩm, 51 nguyên liệu/thực phẩm, 31 món Việt và 8 đơn vị khẩu phần.
+- 16 quán ăn có địa chỉ TP. Hồ Chí Minh và liên kết nguồn Michelin Guide; mỗi quán gắn món đã đối chiếu, giá chưa xác minh để trống.
 - 6 nhãn dị ứng, cấu hình công thức, nhật ký/nước/cân nặng minh họa.
-- Tổng dữ liệu thực phẩm + món: 73 mục.
+- Tổng dữ liệu thực phẩm + món: 82 mục.
+
+### Nguồn dữ liệu và giới hạn xác minh
+
+- Thực phẩm đã đối chiếu lấy từ **Bảng thành phần thực phẩm Việt Nam 2017** (PDF do người dùng cung cấp, 304 trang), tính trên 100 g phần ăn được. Trường `source` ghi mã thực phẩm và trang PDF. Ví dụ khoai lang mã `02008` là **124 Kcal/100 g**, khác bảng 2007 (119 Kcal); giao diện dùng con số của bảng 2017 cho bản ghi này.
+- [Bảng thành phần 2007 của FAO](https://www.fao.org/fileadmin/templates/food_composition/documents/pdf/VTN_FCT_2007.pdf) và [công cụ Viện Dinh dưỡng](https://viendinhduong.vn/vi/cong-cu-va-tien-ich/gia-tri-dinh-duong-thuc-pham) dùng để đối chiếu. [Vietnamese Foods](https://www.kaggle.com/datasets/quandang/vietnamese-foods) và [VinaFood21](https://www.kaggle.com/datasets/sonbui25/vinafood21) chỉ tham khảo nhận diện món, không phải bảng thành phần dinh dưỡng.
+- Địa chỉ 16 quán được kiểm tra trên Michelin Guide, liên kết ở từng trang quán. Ứng dụng đưa cả tên và địa chỉ vào Google Maps để định vị. Chưa lưu tọa độ thủ công khi chưa được kiểm chứng độc lập; cần kiểm tra ghim và giờ mở cửa trên bản đồ trước khi đi.
+- Sau khi cập nhật code, chạy `php artisan migrate` để thêm bảng nhóm quyền/nhật ký và cột nguồn quán. Nếu muốn thay hoàn toàn dữ liệu demo bằng bản mới, chạy `php artisan migrate:fresh --seed` (lệnh này xóa dữ liệu đang có).
 
 Tài khoản demo:
 

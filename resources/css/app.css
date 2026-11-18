@@ -1,4 +1,5 @@
 @import "tailwindcss";
+[x-cloak] { display: none !important; }
 @plugin "@tailwindcss/forms";
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -7,15 +8,35 @@
 @source "../**/*.blade.php";
 @source "../**/*.js";
 
-@layer components {
-    .card { @apply rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700; }
-    .btn { @apply inline-flex items-center justify-center rounded-xl bg-emerald-700 px-4 py-2 font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2; }
-    .btn-secondary { @apply inline-flex items-center justify-center rounded-xl bg-slate-100 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-200 dark:bg-slate-700 dark:text-white; }
-    .input { @apply w-full rounded-xl border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white; }
-    .label { @apply mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-200; }
-    .badge { @apply inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800; }
-    .table-wrap { @apply overflow-x-auto rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700; }
-    .table { @apply min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-700; }
-    .table th { @apply bg-slate-50 px-4 py-3 text-left font-semibold text-slate-600 dark:bg-slate-900 dark:text-slate-300; }
-    .table td { @apply px-4 py-3 text-slate-700 dark:text-slate-200; }
+@theme {
+    --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
 }
+
+@layer components {
+    .card { @apply rounded-xl border border-zinc-200 bg-white p-5 shadow-none dark:border-zinc-700 dark:bg-zinc-900; }
+    .btn { @apply inline-flex items-center justify-center rounded-lg bg-zinc-950 px-4 py-2 font-semibold text-white transition hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200; }
+    .btn-secondary { @apply inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-4 py-2 font-semibold text-zinc-900 hover:bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-900 dark:text-white; }
+    .input { @apply w-full rounded-lg border-zinc-300 bg-white shadow-none focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-600 dark:bg-zinc-900 dark:text-white; }
+    .label { @apply mb-1 block text-sm font-semibold text-zinc-700 dark:text-zinc-200; }
+    .badge { @apply inline-flex rounded-md border border-zinc-300 bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100; }
+    .table-wrap { @apply overflow-x-auto rounded-xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900; }
+    .table { @apply min-w-full divide-y divide-zinc-200 text-sm dark:divide-zinc-700; }
+    .table th { @apply bg-zinc-100 px-4 py-3 text-left font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200; }
+    .table td { @apply px-4 py-3 text-zinc-700 dark:text-zinc-200; }
+}
+
+@layer base {
+    body { @apply bg-zinc-50 text-zinc-950 dark:bg-zinc-950 dark:text-zinc-100; }
+    a { @apply underline-offset-4; }
+    a:hover { @apply underline; }
+}
+
+/* Giữ giao diện đơn sắc cho cả những màn hình chức năng cũ. */
+body [class*="text-emerald-"], body [class*="text-amber-"], body [class*="text-blue-"], body [class*="text-red-"] { color: #27272a !important; }
+body [class*="bg-emerald-"], body [class*="bg-amber-"], body [class*="bg-blue-"], body [class*="bg-red-"] { background-color: #f4f4f5 !important; }
+body [class*="bg-red-600"], body [class*="bg-emerald-500"] { background-color: #18181b !important; }
+body [class*="border-emerald-"], body [class*="border-amber-"], body [class*="border-blue-"], body [class*="border-red-"] { border-color: #a1a1aa !important; }
+.dark body [class*="text-emerald-"], .dark body [class*="text-amber-"], .dark body [class*="text-blue-"], .dark body [class*="text-red-"] { color: #f4f4f5 !important; }
+.dark body [class*="bg-emerald-"], .dark body [class*="bg-amber-"], .dark body [class*="bg-blue-"], .dark body [class*="bg-red-"] { background-color: #27272a !important; }
+.dark body [class*="bg-white"], .dark body [class*="bg-gray-"], .dark body [class*="bg-slate-"] { background-color: #27272a !important; }
+.dark body [class*="text-gray-900"], .dark body [class*="text-slate-900"] { color: #f4f4f5 !important; }
