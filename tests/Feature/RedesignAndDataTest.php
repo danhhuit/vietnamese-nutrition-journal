@@ -22,6 +22,8 @@ final class RedesignAndDataTest extends TestCase
         self::assertGreaterThanOrEqual(50, Food::count());
         self::assertSame(124.0, (float) $sweetPotato->calories);
         self::assertStringContainsString('02008', $sweetPotato->source);
+        self::assertSame(112.0, (float) Food::where('name', 'Bún tươi')->firstOrFail()->calories);
+        self::assertSame(46, Food::query()->where('source', 'like', '%2017%')->count());
         self::assertSame(16, Restaurant::count());
         self::assertSame('84 Đặng Văn Ngữ, Phú Nhuận, TP. Hồ Chí Minh', Restaurant::where('name', 'Cơm Tấm Ba Ghiền')->firstOrFail()->address);
         self::assertTrue(Restaurant::query()->whereNull('source_url')->doesntExist());

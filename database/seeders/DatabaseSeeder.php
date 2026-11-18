@@ -42,8 +42,8 @@ final class DatabaseSeeder extends Seeder
             $foods = [
                 ['Gạo tẻ', 'Ngũ cốc', 344, 7.5, .6, 76.2, 2], ['Gạo lứt', 'Ngũ cốc', 350, 7.9, 2.9, 72.8, 5], ['Bún tươi', 'Ngũ cốc', 110, 1.7, .4, 25.7, 20], ['Phở tươi', 'Ngũ cốc', 143, 3.2, .5, 31.8, 15], ['Bánh mì', 'Ngũ cốc', 265, 9, 3.2, 49, 491], ['Mì trứng', 'Ngũ cốc', 138, 4.5, 2.1, 25, 350],
                 ['Gạo nếp cái', 'Ngũ cốc', 348, 8.6, 1.5, 75.1, 3], ['Kê', 'Ngũ cốc', 345, 7, 3, 72.4, 7], ['Ngô bắp tươi', 'Ngũ cốc', 200, 4.1, 2.3, 40.8, 3], ['Bánh đa nem', 'Ngũ cốc', 335, 4, .2, 79.4, 0], ['Bánh đúc', 'Ngũ cốc', 52, .9, .3, 11.4, 0], ['Củ đậu', 'Khoai củ', 31, 1, 0, 6.7, 0], ['Sữa dê tươi', 'Sữa', 69, 3.5, 4.1, 4.5, 50], ['Nước cam tươi', 'Nước giải khát', 23, .7, .2, 4.7, 1],
-                ['Khoai lang', 'Khoai củ', 119, 1.2, .3, 28.5, 40], ['Khoai tây', 'Khoai củ', 87, 1.9, .1, 20.1, 6], ['Đậu phộng', 'Hạt, quả giàu đạm béo', 567, 25.8, 49.2, 16.1, 18], ['Hạt sen', 'Hạt, quả giàu đạm béo', 350, 17, 2, 63, 5],
-                ['Chuối', 'Quả chín', 89, 1.1, .3, 22.8, 1], ['Cam', 'Quả chín', 47, .9, .1, 11.8, 0], ['Xoài', 'Quả chín', 60, .8, .4, 15, 1], ['Thanh long', 'Quả chín', 50, 1.1, .4, 11, 2],
+                ['Khoai lang', 'Khoai củ', 119, 1.2, .3, 28.5, 40], ['Khoai tây', 'Khoai củ', 87, 1.9, .1, 20.1, 6], ['Đậu phộng', 'Hạt, quả giàu đạm béo', 567, 25.8, 49.2, 16.1, 18], ['Hạt sen khô', 'Hạt, quả giàu đạm béo', 350, 17, 2, 63, 5],
+                ['Chuối tiêu', 'Quả chín', 89, 1.1, .3, 22.8, 1], ['Cam', 'Quả chín', 47, .9, .1, 11.8, 0], ['Xoài', 'Quả chín', 60, .8, .4, 15, 1], ['Thanh long', 'Quả chín', 50, 1.1, .4, 11, 2],
                 ['Rau muống', 'Rau, quả, củ dùng làm rau', 19, 2.6, .2, 3.1, 113], ['Giá đỗ', 'Rau, quả, củ dùng làm rau', 31, 3, .2, 6, 6], ['Cà chua', 'Rau, quả, củ dùng làm rau', 18, .9, .2, 3.9, 5], ['Dưa leo', 'Rau, quả, củ dùng làm rau', 15, .7, .1, 3.6, 2], ['Cà rốt', 'Rau, quả, củ dùng làm rau', 41, .9, .2, 9.6, 69], ['Cải xanh', 'Rau, quả, củ dùng làm rau', 27, 2.9, .4, 4.7, 20], ['Hành tây', 'Rau, quả, củ dùng làm rau', 40, 1.1, .1, 9.3, 4], ['Hành lá', 'Rau, quả, củ dùng làm rau', 32, 1.8, .2, 7.3, 16], ['Ngò rí', 'Rau, quả, củ dùng làm rau', 23, 2.1, .5, 3.7, 46], ['Tỏi', 'Rau, quả, củ dùng làm rau', 149, 6.4, .5, 33.1, 17],
                 ['Dầu đậu nành', 'Dầu, mỡ, bơ', 884, 0, 100, 0, 0], ['Mỡ heo', 'Dầu, mỡ, bơ', 902, 0, 100, 0, 0],
                 ['Thịt bò nạc', 'Thịt', 250, 26, 15, 0, 72], ['Thịt heo nạc', 'Thịt', 242, 27, 14, 0, 62], ['Sườn heo', 'Thịt', 277, 18, 23, 0, 80], ['Ức gà', 'Thịt', 165, 31, 3.6, 0, 74], ['Chả lụa', 'Thức ăn truyền thống', 230, 21, 14, 4, 800], ['Đậu hũ', 'Thức ăn truyền thống', 76, 8, 4.8, 1.9, 7],
@@ -64,6 +64,26 @@ final class DatabaseSeeder extends Seeder
                 'Củ đậu' => ['04023', 47, 31, 1, 0, 6.7, .7, 8, 0, 0, 0, null, 0],
                 'Sữa dê tươi' => ['10002', 111, 69, 3.5, 4.1, 4.5, 0, 147, .1, 50, 204, null, 3],
                 'Nước cam tươi' => ['14005', 133, 23, .7, .2, 4.7, 0, 26, .3, 1, 200, null, 54],
+                'Khoai tây' => ['02014', 31, 96, 2, .07, 21.93, 1, 10, 1.2, 7, 396, null, 10],
+                'Đậu phộng' => ['03017', 38, 583, 27.5, 44.5, 18, 2.5, 68, 2.2, 4, 421, null, 0],
+                'Hạt sen khô' => ['04041', 48, 342, 20, 2.4, 60.2, 2.2, 89, 6.4, 5, 1368, null, 0],
+                'Chuối tiêu' => ['05007', 65, 100, 1.5, .2, 23, .8, 8, .6, 19, 329, null, 6],
+                'Dưa leo' => ['04027', 47, 18, .8, .09, 3.61, .7, 23, 1, 13, 169, null, 5],
+                'Cà rốt' => ['04007', 45, 44, 1.5, .17, 9.03, 1.2, 43, .8, 52, 266, null, 3],
+                'Cải xanh' => ['04016', 47, 23, 1.7, .14, 3.76, 1.8, 89, 1.9, 29, 221, null, 51],
+                'Hành tây' => ['04039', 49, 45, 1.8, .11, 9.29, 1.1, 38, .8, 8, 221, null, 10],
+                'Ngò rí' => ['04081', 53, 22, 2.6, .33, 2.17, 1.8, 133, 4.5, 46, 521, null, 140],
+                'Tỏi' => ['04103', 57, 126, 6, .35, 24.65, 1.5, 24, 1.5, 18, 373, null, 10],
+                'Dầu đậu nành' => ['06010', 75, 900, 0, 100, 0, 0, 0, 0, 0, 0, null, 0],
+                'Mỡ heo' => ['06004', 75, 896, 0, 99.6, 0, 0, 0, 0, 0, 0, null, 0],
+                'Sườn heo' => ['07053', 85, 187, 17.9, 12.8, 0, 0, 7, .61, 60, 200, null, 0],
+                'Chả lụa' => ['07069', 87, 205, 16.9, 15, .5, .1, 24, .87, 0, 0, null, 0],
+                'Đậu hũ' => ['03025', 38, 97, 10.9, 5.4, 1.1, .4, 24, 2.2, 7, 121, null, .1],
+                'Cá lóc' => ['08022', 97, 97, 18.2, 2.7, 0, 0, 90, 0, 0, 0, null, 0],
+                'Cua biển' => ['08033', 99, 103, 17.5, .6, 7, 0, 141, 3.8, 316, 322, null, 0],
+                'Trứng gà' => ['09001', 106, 150, 12.96, 10.33, 1.25, 0, 55, 2.7, 158, 176, null, 0],
+                'Đường cát' => ['12014', 123, 397, 0, 0, 99.3, 0, 0, .06, 0, 2, null, 0],
+                'Nước tương' => ['13022', 129, 55, 6.3, .04, 7.46, .8, 19, 1.93, 5637, 217, null, 0],
                 'Khoai lang' => ['02008', 31, 124, .8, .2, 29.8, 1.3, 34, 1, 31, 210, null, 23],
                 'Cà chua' => ['04005', 45, 24, .6, .23, 4.77, .8, 12, 1.4, 12, 275, null, 40],
                 'Rau muống' => ['04083', 55, 28, 3.2, .24, 3.26, 1, 100, 1.4, 37, 331, null, 20],
@@ -72,13 +92,27 @@ final class DatabaseSeeder extends Seeder
                 'Thịt heo nạc' => ['07017', 81, 139, 19, 7, 0, 0, 7, .96, 76, 341, null, .8],
                 'Sữa tươi' => ['10001', 111, 74, 3.9, 4.4, 4.8, 0, 120, .1, 380, 143, null, 1],
             ];
+            $verifiedEnergyOnly = [
+                'Bún tươi' => ['01020', 26, 112],
+                'Phở tươi' => ['01013', 24, 141],
+                'Xoài' => ['05055', 71, 69],
+                'Thanh long' => ['05044', 69, 47],
+                'Giá đỗ' => ['04036', 49, 52],
+                'Hành lá' => ['04038', 49, 26],
+                'Nước dừa' => ['14006', 133, 21],
+                'Nước mắm' => ['13015', 128, 28],
+            ];
             foreach ($foods as [$name,$group,$cal,$protein,$fat,$carb,$sodium]) {
                 $verified = $verifiedFoods[$name] ?? null;
+                $energyOnly = $verifiedEnergyOnly[$name] ?? null;
                 $fiber = $calcium = $iron = $potassium = $vitaminC = 0;
                 if ($verified) {
                     [$code, $page, $cal, $protein, $fat, $carb, $fiber, $calcium, $iron, $sodium, $potassium, , $vitaminC] = $verified;
+                } elseif ($energyOnly) {
+                    [$code, $page, $cal] = $energyOnly;
                 }
-                Food::create(['food_group_id' => $groups[$group]->id, 'name' => $name, 'normalized_name' => Food::normalize($name), 'origin' => in_array($group, ['Thịt', 'Thủy sản', 'Trứng', 'Sữa']) ? 'animal' : 'plant', 'source' => $verified ? "Bảng thành phần thực phẩm Việt Nam 2017, mã {$code}, trang PDF {$page}" : 'Ước tính minh họa, chưa đối chiếu nguồn', 'calories' => $cal, 'protein_g' => $protein, 'fat_g' => $fat, 'carb_g' => $carb, 'fiber_g' => $fiber, 'calcium_mg' => $calcium, 'iron_mg' => $iron, 'sodium_mg' => $sodium, 'potassium_mg' => $potassium, 'vitamin_a_mcg' => 0, 'vitamin_c_mg' => $vitaminC]);
+                $source = $verified ? "Bảng thành phần thực phẩm Việt Nam 2017, mã {$code}, trang PDF {$page}" : ($energyOnly ? "Ước tính các thành phần; năng lượng đối chiếu bảng 2017, mã {$code}, trang PDF {$page}" : 'Ước tính minh họa, chưa đối chiếu nguồn');
+                Food::create(['food_group_id' => $groups[$group]->id, 'name' => $name, 'normalized_name' => Food::normalize($name), 'origin' => in_array($group, ['Thịt', 'Thủy sản', 'Trứng', 'Sữa']) ? 'animal' : 'plant', 'source' => $source, 'calories' => $cal, 'protein_g' => $protein, 'fat_g' => $fat, 'carb_g' => $carb, 'fiber_g' => $fiber, 'calcium_mg' => $calcium, 'iron_mg' => $iron, 'sodium_mg' => $sodium, 'potassium_mg' => $potassium, 'vitamin_a_mcg' => 0, 'vitamin_c_mg' => $vitaminC]);
             }
 
             $dishRows = [
